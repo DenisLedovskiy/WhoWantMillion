@@ -42,11 +42,11 @@ extension GameViewControler: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-
         if indexPath.row == questionArray[indexQuestion].idRightAnswer {
         if questionCounter < 4 {
             questionCounter += 1
-            print(delegate?.getGameStat(rightQuestion: questionCounter, balance: prize))
+            delegate?.getGameRigtQustions(rightQuestion: questionCounter)
+            delegate?.getGameBalance(balance: prize)
             prize *= 2
             indexQuestion += 1
             setLabelsText()
@@ -56,12 +56,7 @@ extension GameViewControler: UITableViewDelegate, UITableViewDataSource {
             }
         }
         } else {
-            var winRate = 0
-            if questionCounter > 0 {
-                winRate = questionCounter/(questionArray.count/100) }
-            session.session?.balance = prize/2
-            session.session?.rightQuestionCounter = questionCounter
-            session.rezults.append(Rezults(idGame: 1, procentWin:  winRate))
+            Game.instance.calcRezults()
             performSegue(withIdentifier: "fromGameToMenu", sender: Any.self)
 
         }

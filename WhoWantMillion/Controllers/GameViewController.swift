@@ -9,7 +9,8 @@ import UIKit
 
 protocol GameSessionDelegate: AnyObject {
 
-    func getGameStat(rightQuestion: Int, balance: Int)
+    func getGameRigtQustions(rightQuestion: Int)
+    func getGameBalance(balance: Int)
 
 }
 
@@ -20,10 +21,10 @@ class GameViewControler: UIViewController {
     @IBOutlet weak var answerTable: UITableView!
     @IBOutlet weak var costQuestionLabel: UILabel!
 
+//    let session = Game.instance
+
     var delegate: GameSessionDelegate?
     
-    let session = Game.instance
-
     var questionArray = [Questions]()
     var indexQuestion = 0
     var questionCounter = 0
