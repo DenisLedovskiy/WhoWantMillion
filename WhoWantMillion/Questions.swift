@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+struct Questions {
+
+    var numberOfQuestion: Int
+    var question: String
+    var answers: [Int: String]
+    var idRightAnswer: Int
+}
