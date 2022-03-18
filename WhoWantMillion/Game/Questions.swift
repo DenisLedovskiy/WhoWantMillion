@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Questions {
+struct Questions: Codable {
 
     var numberOfQuestion: Int
     var question: String

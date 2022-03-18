@@ -16,12 +16,15 @@ class Game {
     var session: GameSession?
     var rezults = [Rezults]()
     var careTaker = CareTaker()
+    var gameStrategy: [StrategyQuestions] = [StrategyQuestionRandom(), StrategyQuestionConsistent()]
+    var currentStrategy = 1
+
 
     func calcRezults() {
         guard let gameSession = self.session else {return}
         let rightAnswer = gameSession.rightQuestionCounter
         let prize = gameSession.balance
-        let winRate = (rightAnswer * 100) / 5
+        let winRate = gameSession.winRate
         self.rezults.append(Rezults(rightAnswers: rightAnswer, balance: prize, winRate: winRate))
         careTaker.save(records: rezults)
         self.session = nil
