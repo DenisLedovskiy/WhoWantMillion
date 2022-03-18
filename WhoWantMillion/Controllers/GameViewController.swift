@@ -9,7 +9,9 @@ import UIKit
 
 protocol GameSessionDelegate: AnyObject {
 
-    func getGameStat(rightQuestion: Int, balance: Int)
+    func getGameRigtQustions(rightQuestion: Int)
+    func getGameBalance(balance: Int)
+    func getGameWinRate(winRateProcent: Int)
 
 }
 
@@ -20,13 +22,16 @@ class GameViewControler: UIViewController {
     @IBOutlet weak var answerTable: UITableView!
     @IBOutlet weak var costQuestionLabel: UILabel!
 
+    var session = GameSession()
+    var mementoAddQuestion = MementoAddQuestion()
+
     var delegate: GameSessionDelegate?
     
-    let session = Game.instance
-
     var questionArray = [Questions]()
     var indexQuestion = 0
     var questionCounter = 0
+    var numberOfQuestion = 1
+    var winRate = 0
     var prize = 100
 
     override func viewDidLoad() {
@@ -37,10 +42,18 @@ class GameViewControler: UIViewController {
         answerTable.delegate = self
         answerTable.dataSource = self
 
+        NotificationCenter.default.addObserver(self, selector: #selector(setWinRate), name: Notification.Name("winRate"), object: nil)
+    }
+
+    @objc func setWinRate() {
+
+    //winRate = session.winRate
+        winRate = (questionCounter * 100) / questionArray.count
+
     }
 
     func setLabelsText() {
-        numberOfQuestionLabel.text = "Вопрос \(questionArray[indexQuestion].numberOfQuestion)"
+        numberOfQuestionLabel.text = "Вопрос \(numberOfQuestion) (Ответил: \(winRate) %)"
         questionLabel.text = questionArray[indexQuestion].question
         costQuestionLabel.text = "Ответьте и получите \(prize.description) рублей!"
     }
@@ -89,6 +102,8 @@ class GameViewControler: UIViewController {
     questionArray.append(questionThree)
     questionArray.append(questionFour)
     questionArray.append(questionFive)
+    questionArray = Game.instance.gameStrategy[Game.instance.currentStrategy].getQuestion(question: questionArray)
+    let addQuestions = mementoAddQuestion.retrieveRecords()
+    questionArray += addQuestions
     }
-
 }

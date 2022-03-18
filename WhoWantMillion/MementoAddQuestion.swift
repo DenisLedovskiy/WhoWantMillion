@@ -1,20 +1,20 @@
 //
-//  CareTaker.swift
+//  MementoAddQuestion.swift
 //  WhoWantMillion
 //
-//  Created by Денис Ледовский on 06.03.2022.
+//  Created by Денис Ледовский on 18.03.2022.
 //
 
 import Foundation
 
-class CareTaker {
-    
+class MementoAddQuestion {
+
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
 
     private let key = "records"
 
-    func save(records: [Rezults]) {
+    func save(records: [Questions]) {
         do {
             let data = try self.encoder.encode(records)
             UserDefaults.standard.set(data, forKey: key)
@@ -23,15 +23,16 @@ class CareTaker {
         }
     }
 
-    func retrieveRecords() -> [Rezults] {
+    func retrieveRecords() -> [Questions] {
         guard let data = UserDefaults.standard.data(forKey: key) else {
             return []
         }
         do {
-            return try self.decoder.decode([Rezults].self, from: data)
+            return try self.decoder.decode([Questions].self, from: data)
         } catch {
             print(error)
             return []
         }
     }
 }
+
