@@ -7,6 +7,8 @@
 
 import Foundation
 
+// Для теста гита
+
 class CareTaker {
     
     private let encoder = JSONEncoder()
